@@ -1,0 +1,39 @@
+id: org.freedesktop.Sdk.Extension.fish
+branch: '23.08'
+runtime: org.freedesktop.Sdk
+runtime-version: '23.08'
+build-extension: true
+sdk: org.freedesktop.Sdk
+separate-locales: false
+appstream-compose: false
+cleanup:
+  - '*.a'
+  - '*.la'
+  - /share/man
+build-options:
+  no-debuginfo: true
+  strip: true
+  prefix: /usr/lib/sdk/fish
+modules:
+  - name: fish
+    buildsystem: cmake-ninja
+    build-options:
+      ldflags: -ltinfo
+    sources:
+      - type: archive
+        url: https://github.com/fish-shell/fish-shell/releases/download/3.7.0/fish-3.7.0.tar.xz
+        sha256: df1b7378b714f0690b285ed9e4e58afe270ac98dbc9ca5839589c1afcca33ab1
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/fish-shell/fish-shell/releases/latest
+          version-query: .tag_name
+          url-query: .assets[] | select(.name=="fish-\($version).tar.xz") | .browser_download_url
+  - name: bundle-setup
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 ${FLATPAK_ID}.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
+      - appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak
+        ${FLATPAK_ID}
+    sources:
+      - type: file
+        path: org.freedesktop.Sdk.Extension.fish.metainfo.xml
