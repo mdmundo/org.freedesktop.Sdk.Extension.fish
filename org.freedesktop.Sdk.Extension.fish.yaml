@@ -28,7 +28,7 @@ modules:
           url: https://api.github.com/repos/fish-shell/fish-shell/releases/latest
           version-query: .tag_name
           url-query: .assets[] | select(.name=="fish-\($version).tar.xz") | .browser_download_url
-  - name: bundle-setup
+  - name: metainfo
     buildsystem: simple
     build-commands:
       - install -Dm644 ${FLATPAK_ID}.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
