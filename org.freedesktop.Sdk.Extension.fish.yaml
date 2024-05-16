@@ -1,14 +1,14 @@
 id: org.freedesktop.Sdk.Extension.fish
-branch: '23.08'
+branch: "23.08"
 runtime: org.freedesktop.Sdk
-runtime-version: '23.08'
+runtime-version: "23.08"
 build-extension: true
 sdk: org.freedesktop.Sdk
 separate-locales: false
 appstream-compose: false
 cleanup:
-  - '*.a'
-  - '*.la'
+  - "*.a"
+  - "*.la"
   - /share/man
 build-options:
   no-debuginfo: true
